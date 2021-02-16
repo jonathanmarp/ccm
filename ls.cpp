@@ -26,7 +26,7 @@ void ls() {
                 std::string _Buffing = ent->d_name;
                 getColor(_Buffing, F_YELLOW);
                 printf ("%s\n", _Buffing.c_str());
-                getColor(_Buff, reseting);
+                getColor(_Buffing, reseting);
             }
             closedir (dir);
         } else {
