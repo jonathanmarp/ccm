@@ -1,22 +1,29 @@
+// Lokking if C++ in exist
+// If Exist not run using C++
+// this can't run this script
+
 #ifdef __cplusplus
-// #including library
-#include <string>
+    extern "C"{
+#endif
 
-// Check if CCM_H its exist or not
-// If Not Exist This script run
+// TO build this with mingw32 or ming64
+// g++ -c -DBUILD_SHARED_LIB ccm.cpp
+// g++ -shared -Wall -fPIC -o ccm.dll ccm.o -Wl,--out-implib,libccm.a
 
-    #ifndef CCM_H
-    #define CCM_H
+#ifdef BUILD_SHARED_LIB // if this visual studio change this to CCM_EXPORTS
+    // Exports library
+    #define CCM __declspec(dllexport)
+#else
+    // Importing library
+    #define CCM __declspec(dllimport)
+#endif
+    // Input Library from CCM
+    void CCM input(std::string &, std::string);
 
-        // If Windows x32 and x64
-        #ifdef _WIN32
-            // Windows Header File
-            #include "ccm/windows.h"
-        #else
-            // Linux Header File
-            #include "ccm/linux.h"
-        #endif
+    // Run Shell And Get output from refrench string
+    void CCM ExecutableRun(std::string &);
 
-    #endif
-
+// If Not define C++ this script can't run
+#ifdef __cplusplus
+    }
 #endif
