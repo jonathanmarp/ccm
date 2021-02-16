@@ -15,8 +15,8 @@ void pwd() {
         getColor(15);
     #else
         std::string _Briffing = exec1("pwd");
-        getColor(_Buff, F_YELLOW);
+        getColor(_Briffing, F_YELLOW);
         std::cout << _Briffing << std::endl;
-        getColor(_Buff, reseting);
+        getColor(_Briffing, reseting);
     #endif
 }
