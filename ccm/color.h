@@ -17,13 +17,13 @@
     #define F_WHITE 37
 
     #define reseting 0
-    #define bold 1
-    #define bright 1
-    #define underline 4
-    #define inverse 7
-    #define bold  21
+    #define bolds 1
+    #define brights 1
+    #define underlines 4
+    #define inverses 7
+    #define boldes  21
     #define bright_off  21
-    #define underline off 24
-    #define inverse off 27
+    #define underline_offes 24
+    #define inverse_offes 27
     void getColor(std::string& cmd, int color);
 #endif
