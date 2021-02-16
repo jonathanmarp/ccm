@@ -1,21 +1,4 @@
-#include <iostream>
-#include <stdio.h>
-#include <string>
-#include <stdlib.h>
-#include <memory>
-#include <cstdio>
-#include <stdexcept>
-#include <map>
-#include <array>
-#ifdef _WIN32
-    #include <direct.h>
-    #include <Windows.h>
-    #define GetCurrentDir _getcwd
-#else
-    #include <unistd.h>
-    #include <dirent.h>
-    #define GetCurrentDir getcwd
- #endif
+#include "ccm/CCM_Header.h"
 #include "ccm.h"
 
 void input(std::string& refrench, std::string printS) {
