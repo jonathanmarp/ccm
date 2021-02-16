@@ -24,8 +24,7 @@
             #endif
 
         #else
-            void input(std::string&, std::string);
-            void ExecutableRun(std::string&);
+            #include "ccm/linux.h"
         #endif
 
     #endif
