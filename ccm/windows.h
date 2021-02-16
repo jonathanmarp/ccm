@@ -1,25 +1,22 @@
 #ifdef __cplusplus
+// #including library
+#include <string>
 
-                extern "C" {
+// Check if CCM_H its exist or not
+// If Not Exist This script run
 
-            #endif
+    #ifndef CCM_H
+    #define CCM_H
 
-                #ifdef BUILD_SHARED_LIB
+        // If Windows x32 and x64
+        #ifdef _WIN32
+            // Windows Header File
+            #include "ccm/windows.h"
+        #else
+            // Linux Header File
+            #include "ccm/linux.h"
+        #endif
 
-                    #define CCM __declspec(dllexport)
-
-                #else
-
-                    #define CCM __declspec(dllimport)
-
-                #endif
-
-                void CCM input(std::string&, std::string);
-
-                void CCM ExecutableRun(std::string&);
-
-            #ifdef __cplusplus
-
-                }
+    #endif
 
 #endif
