@@ -51,7 +51,7 @@ class itsProgram {
                 return;
             } else {
                 bool itsCommands = false;
-                for(int i = 0; i < sizeof(itsCommand) / sizeof(std::string); i++) {
+                for(unsigned int i = 0; i < sizeof(itsCommand) / sizeof(std::string); i++) {
                     if(exece == itsCommand[i]) {
                         itsCommands = true;
                     }
@@ -60,12 +60,35 @@ class itsProgram {
                     this->myVoid[exece]();
                 } else {
                     bool runOk = false;
+                    #include "ccm/color.h"
                     try {
-                        std::cout << exec1(exece.c_str()) << std::endl;
+                        std::string _Buff = exec1(exece.c_str());
+                        #ifdef _WIN32
+                            getColor(14);
+                        #else
+                            getColor(_Buff, F_YELLOW);
+                        #endif
+                        std::cout << _Buff << std::endl;
+                        #ifdef _WIN32
+                            getColor(15);
+                        #else
+                            getColor(_Buff, reseting);
+                        #endif
                         runOk = true;
                     } catch(...) {
                         try {
-                            std::cout << exec2(exece.c_str()) << std::endl;
+                            std::string _Buff = exec2(exece.c_str());
+                            #ifdef _WIN32
+                                getColor(14);
+                            #else
+                                getColor(_Buff, F_YELLOW);
+                            #endif
+                            std::cout << _Buff << std::endl;
+                            #ifdef _WIN32
+                                getColor(15);
+                            #else
+                                getColor(_Buff, reseting);
+                            #endif
                             runOk = true;
                         } catch(...) {
                             runOk = false;
