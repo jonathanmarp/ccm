@@ -1,0 +1,1 @@
+std::string exec2(const char* cmd);
