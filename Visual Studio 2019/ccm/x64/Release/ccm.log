@@ -1,9 +1,7 @@
 ﻿  ccm.cpp
-  ls.cpp
-  pwd.cpp
      Creating library G:\Dev\ccli\ccli\x64\Release\ccm.lib and object G:\Dev\ccli\ccli\x64\Release\ccm.exp
   Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 272 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 276 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   ccm.vcxproj -> G:\Dev\ccli\ccli\x64\Release\ccm.dll

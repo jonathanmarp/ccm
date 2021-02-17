@@ -31,6 +31,10 @@ std::array<std::string, 4> itsCommand = {
     "exit"
 };
 
+std::array<std::string, 3> itsProgranREPL = {
+    "node", "python3", "python"
+};
+
 // including header for exec1
 #include "ccm/exec1.h"
 
@@ -80,26 +84,21 @@ public:
                 this->myVoid[exece]();
             }
             else {
-                bool runOk = false;
-#include "ccm/color.h"
-                try {
-                    std::string _Buff = exec1(exece.c_str());
-                    #ifdef _WIN32
-                        getColor(14);
-                    #else
-                        getColor(_Buff, F_YELLOW);
-                    #endif
-                    std::cout << _Buff << std::endl;
-                    #ifdef _WIN32
-                        getColor(15);
-                    #else
-                        getColor(_Buff, reseting);
-                    #endif
-                    runOk = true;
+                bool Its = false;
+                for (unsigned int i = 0; i < sizeof(itsProgranREPL) / sizeof(std::string); i++) {
+                    if (itsProgranREPL[i] == exece) {
+                        Its = true;
+                        break;
+                    }
                 }
-                catch (...) {
+                if (Its == true) {
+                    system(exece.c_str());
+                }
+                else {
+                    bool runOk = false;
+                    #include "ccm/color.h"
                     try {
-                        std::string _Buff = exec2(exece.c_str());
+                        std::string _Buff = exec1(exece.c_str());
                         #ifdef _WIN32
                             getColor(14);
                         #else
@@ -114,11 +113,28 @@ public:
                         runOk = true;
                     }
                     catch (...) {
-                        runOk = false;
+                        try {
+                            std::string _Buff = exec2(exece.c_str());
+                            #ifdef _WIN32
+                                getColor(14);
+                            #else
+                                getColor(_Buff, F_YELLOW);
+                            #endif
+                            std::cout << _Buff << std::endl;
+                            #ifdef _WIN32
+                                getColor(15);
+                            #else
+                                getColor(_Buff, reseting);
+                            #endif
+                            runOk = true;
+                        }
+                        catch (...) {
+                            runOk = false;
+                        }
                     }
-                }
-                if (runOk == false) {
-                    std::cout << "Error " << exece << std::endl;
+                    if (runOk == false) {
+                        std::cout << "Error " << exece << std::endl;
+                    }
                 }
             }
         }
