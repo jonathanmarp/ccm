@@ -1,1 +1,1 @@
-g++ -shared -fPIC -Wall ccm.cpp ls.cpp color.cpp pwd.cpp exec1.cpp exec2.cpp clear.cpp exit.cpp -o libccm.so
+g++ -shared -Wall -fPIC ccm.cpp ls.cpp pwd.cpp color.cpp exec1.cpp exec2.cpp exit.cpp clear.cpp cd.cpp -o libccm.so

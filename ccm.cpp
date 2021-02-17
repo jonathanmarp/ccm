@@ -7,13 +7,18 @@ void input(std::string& refrench, std::string printS) {
 }
 
 typedef void (*voidFunction)();
+typedef void (*voidFunctions)(std::vector<std::string>&);
 
 std::array<std::string, 4> itsCommand = {
     "ls", "clear", "pwd", "exit"
 };
 
-std::array<std::string, 3> itsProgranREPL = {
-    "node", "python3", "python"
+std::array<std::string, 1> itsCommandSecond = {
+    "cd"
+};
+
+std::array<std::string, 4> itsProgranREPL = {
+    "node", "python3", "python", "zsh"
 };
 
 // including header for exec1
@@ -34,15 +39,21 @@ std::array<std::string, 3> itsProgranREPL = {
 // include header for exit
 #include "ccm/exit.h"
 
+// include header for cd
+#include "ccm/cd.h"
+
 class itsProgram {
     private:
         bool run = false;
         std::map<std::string, voidFunction> myVoid;
+        std::map<std::string, voidFunctions> myVoidParam;
         void Register() {
             this->myVoid["ls"] = ls;
             this->myVoid["clear"] = clear;
             this->myVoid["pwd"] = pwd;
             this->myVoid["exit"] = exit;
+
+            this->myVoidParam["cd"] = cd;
         }
     public:
         itsProgram()
@@ -55,13 +66,38 @@ class itsProgram {
                 return;
             } else {
                 bool itsCommands = false;
+                int bct = 1;
                 for(unsigned int i = 0; i < sizeof(itsCommand) / sizeof(std::string); i++) {
                     if(exece == itsCommand[i]) {
                         itsCommands = true;
+                        bct = 1;
+                        break;
                     }
                 }
+                if(itsCommands == false) {
+                    std::vector<std::string> pwrt;
+                    std::string delimiter = " ";
+                    size_t pos = 0;
+                    std::string token;
+                    while ((pos = exece.find(delimiter)) != std::string::npos) {
+                        token = exece.substr(0, pos);
+                        pwrt.push_back(token);
+                        exece.erase(0, pos + delimiter.length());
+                    }
+                    pwrt.push_back(exece);
+                    for(unsigned int i = 0; i < sizeof(std::string) / sizeof(itsCommandSecond); i++) {
+                        if(pwrt[0] == itsCommandSecond[i]) {
+                            itsCommands = true;
+                            bct = 2;
+                            break;
+                        }
+                    }
+                    this->myVoidParam[pwrt[0]](pwrt);
+                }
                 if(itsCommands == true) {
-                    this->myVoid[exece]();
+                    if(bct == 1) {
+                        this->myVoid[exece]();
+                    }
                 } else {
                     bool Its = false;
                     for(unsigned int i = 0; i < sizeof(itsProgranREPL) / sizeof(std::string); i++) {
