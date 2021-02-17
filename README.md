@@ -18,7 +18,7 @@ Make connection in encrypt :x:
 
 ```C++
 #include <iostream>
-#include "ccm.h"
+#include "folder/ccm.h"
 
 int main(int argc, const char* argv[]) {
   std::string temp;
@@ -32,4 +32,11 @@ int main(int argc, const char* argv[]) {
   }
   return 0;
 }
-``
+```
+
+for compile
+
+- linux
+```bash
+g++ -shared -Wall -fPIC file.cpp -L./folder/ccm -lccm -o nameFile
+```
