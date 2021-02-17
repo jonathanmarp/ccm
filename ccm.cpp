@@ -71,33 +71,52 @@ class itsProgram {
                     if(exece == itsCommand[i]) {
                         itsCommands = true;
                         bct = 1;
-                        break;
                     }
                 }
                 if(itsCommands == false) {
-                    std::vector<std::string> pwrt;
+                    #ifdef _WIN32
+                        std::vector<std::string> pwrt;
+                    #else
+                        std::vector<std::string> pwrt = {"NULL"};
+                    #endif
+                    #ifdef _WIN32
+                    #else
+                    int iSee = 0;
+                    #endif
+                    std::string _BufferExece = exece;
                     std::string delimiter = " ";
                     size_t pos = 0;
                     std::string token;
-                    while ((pos = exece.find(delimiter)) != std::string::npos) {
-                        token = exece.substr(0, pos);
-                        pwrt.push_back(token);
-                        exece.erase(0, pos + delimiter.length());
+                    while ((pos = _BufferExece.find(delimiter)) != std::string::npos) {
+                        token = _BufferExece.substr(0, pos);
+                        #ifdef _WIN32
+                            pwrt.push_back(token);
+                        #else
+                            if(iSee == 0) {
+                                pwrt[0] = token;
+                                iSee += 1;
+                            } else {
+                                pwrt.push_back(token);
+                            }
+                        #endif
+                        _BufferExece.erase(0, pos + delimiter.length());
                     }
-                    pwrt.push_back(exece);
+                    pwrt.push_back(_BufferExece);
                     for(unsigned int i = 0; i < sizeof(std::string) / sizeof(itsCommandSecond); i++) {
                         if(pwrt[0] == itsCommandSecond[i]) {
                             itsCommands = true;
                             bct = 2;
-                            break;
                         }
                     }
-                    this->myVoidParam[pwrt[0]](pwrt);
+                    if(bct == 2) {
+                        this->myVoidParam[pwrt[0]](pwrt);
+                    }
                 }
                 if(itsCommands == true) {
                     if(bct == 1) {
                         this->myVoid[exece]();
                     }
+                    bct = 1;
                 } else {
                     bool Its = false;
                     for(unsigned int i = 0; i < sizeof(itsProgranREPL) / sizeof(std::string); i++) {
