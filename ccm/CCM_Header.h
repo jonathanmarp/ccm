@@ -3,7 +3,7 @@
 // include library c
 #include <stdio.h>
 // include library string
-// and library stdlib, memory, cstdio, stdexception, map, array
+// and library stdlib, memory, cstdio, stdexception, map, array, vector
 #include <string>
 #include <stdlib.h>
 #include <memory>
@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <map>
 #include <array>
+#include <vector>
 // If Windows including direct and Windows
 #ifdef _WIN32
     #include <direct.h>
