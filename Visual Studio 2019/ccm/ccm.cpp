@@ -1,22 +1,5 @@
 #include "pch.h"
-#include <iostream>
-#include <stdio.h>
-#include <string>
-#include <stdlib.h>
-#include <memory>
-#include <cstdio>
-#include <stdexcept>
-#include <map>
-#include <array>
-#ifdef _WIN32
-#include <direct.h>
-#include <Windows.h>
-#define GetCurrentDir _getcwd
-#else
-#include <unistd.h>
-#include <dirent.h>
-#define GetCurrentDir getcwd
-#endif
+#include "ccm/CCM_Header.h"
 #include "ccm.h"
 
 void input(std::string& refrench, std::string printS) {
@@ -25,14 +8,18 @@ void input(std::string& refrench, std::string printS) {
 }
 
 typedef void (*voidFunction)();
+typedef void (*voidFunctions)(std::vector<std::string>&);
 
 std::array<std::string, 4> itsCommand = {
-    "ls", "clear", "pwd",
-    "exit"
+    "ls", "clear", "pwd", "exit"
 };
 
-std::array<std::string, 3> itsProgranREPL = {
-    "node", "python3", "python"
+std::array<std::string, 1> itsCommandSecond = {
+    "cd"
+};
+
+std::array<std::string, 4> itsProgranREPL = {
+    "node", "python3", "python", "zsh"
 };
 
 // including header for exec1
@@ -53,68 +40,99 @@ std::array<std::string, 3> itsProgranREPL = {
 // include header for exit
 #include "ccm/exit.h"
 
+// include header for cd
+#include "ccm/cd.h"
+
 class itsProgram {
-private:
-    bool run = false;
-    std::map<std::string, voidFunction> myVoid;
-    void Register() {
-        this->myVoid["ls"] = ls;
-        this->myVoid["clear"] = clear;
-        this->myVoid["pwd"] = pwd;
-        this->myVoid["exit"] = exit;
-    }
-public:
-    itsProgram()
-        : run(true) {
-        this->Register();
-    }
-    void Take(std::string& exece) {
-        if (this->run == false) {
-            std::cout << "error" << std::endl;
-            return;
+    private:
+        bool run = false;
+        std::map<std::string, voidFunction> myVoid;
+        std::map<std::string, voidFunctions> myVoidParam;
+        void Register() {
+            this->myVoid["ls"] = ls;
+            this->myVoid["clear"] = clear;
+            this->myVoid["pwd"] = pwd;
+            this->myVoid["exit"] = exit;
+
+            this->myVoidParam["cd"] = cd;
         }
-        else {
-            bool itsCommands = false;
-            for (unsigned int i = 0; i < sizeof(itsCommand) / sizeof(std::string); i++) {
-                if (exece == itsCommand[i]) {
-                    itsCommands = true;
-                }
+    public:
+        itsProgram()
+            : run(true) {
+                this->Register();
             }
-            if (itsCommands == true) {
-                this->myVoid[exece]();
-            }
-            else {
-                bool Its = false;
-                for (unsigned int i = 0; i < sizeof(itsProgranREPL) / sizeof(std::string); i++) {
-                    if (itsProgranREPL[i] == exece) {
-                        Its = true;
-                        break;
+        void Take(std::string& exece) {
+            if(this->run == false) {
+                std::cout << "error" << std::endl;
+                return;
+            } else {
+                bool itsCommands = false;
+                int bct = 1;
+                for(unsigned int i = 0; i < sizeof(itsCommand) / sizeof(std::string); i++) {
+                    if(exece == itsCommand[i]) {
+                        itsCommands = true;
+                        bct = 1;
                     }
                 }
-                if (Its == true) {
-                    system(exece.c_str());
-                }
-                else {
-                    bool runOk = false;
-                    #include "ccm/color.h"
-                    try {
-                        std::string _Buff = exec1(exece.c_str());
+                if(itsCommands == false) {
+                    #ifdef _WIN32
+                        std::vector<std::string> pwrt;
+                    #else
+                        std::vector<std::string> pwrt = {"NULL"};
+                    #endif
+                    #ifdef _WIN32
+                    #else
+                    int iSee = 0;
+                    #endif
+                    std::string _BufferExece = exece;
+                    std::string delimiter = " ";
+                    size_t pos = 0;
+                    std::string token;
+                    while ((pos = _BufferExece.find(delimiter)) != std::string::npos) {
+                        token = _BufferExece.substr(0, pos);
                         #ifdef _WIN32
-                            getColor(14);
+                            pwrt.push_back(token);
                         #else
-                            getColor(_Buff, F_YELLOW);
+                            if(iSee == 0) {
+                                pwrt[0] = token;
+                                iSee += 1;
+                            } else {
+                                pwrt.push_back(token);
+                            }
                         #endif
-                        std::cout << _Buff << std::endl;
-                        #ifdef _WIN32
-                            getColor(15);
-                        #else
-                            getColor(_Buff, reseting);
-                        #endif
-                        runOk = true;
+                        _BufferExece.erase(0, pos + delimiter.length());
                     }
-                    catch (...) {
+                    pwrt.push_back(_BufferExece);
+                    for(unsigned int i = 0; i < sizeof(std::string) / sizeof(itsCommandSecond); i++) {
+                        if(pwrt[0] == itsCommandSecond[i]) {
+                            itsCommands = true;
+                            bct = 2;
+                        }
+                    }
+                    if(bct == 2) {
+                        this->myVoidParam[pwrt[0]](pwrt);
+                    }
+                }
+                if(itsCommands == true) {
+                    if(bct == 1) {
+                        this->myVoid[exece]();
+                    }
+                    bct = 1;
+                } else {
+                    bool Its = false;
+                    for(unsigned int i = 0; i < sizeof(itsProgranREPL) / sizeof(std::string); i++) {
+                        if(itsProgranREPL[i] == exece) {
+                            Its = true;
+                            break;
+                        }
+                    }
+                    if(Its == true) {
+                        system(exece.c_str());
+                    } else {
+                        bool runOk = false;
+                        #include "ccm/color.h"
                         try {
-                            std::string _Buff = exec2(exece.c_str());
+                            std::string _Buff = exec1(exece.c_str());
                             #ifdef _WIN32
                                 getColor(14);
                             #else
@@ -127,18 +145,32 @@ public:
                                 getColor(_Buff, reseting);
                             #endif
                             runOk = true;
+                        } catch(...) {
+                            try {
+                                std::string _Buff = exec2(exece.c_str());
+                                #ifdef _WIN32
+                                    getColor(14);
+                                #else
+                                    getColor(_Buff, F_YELLOW);
+                                #endif
+                                std::cout << _Buff << std::endl;
+                                #ifdef _WIN32
+                                    getColor(15);
+                                #else
+                                    getColor(_Buff, reseting);
+                                #endif
+                                runOk = true;
+                            } catch(...) {
+                                runOk = false;
+                            }
                         }
-                        catch (...) {
-                            runOk = false;
+                        if(runOk == false) {
+                            std::cout << "Error " << exece << std::endl;
                         }
-                    }
-                    if (runOk == false) {
-                        std::cout << "Error " << exece << std::endl;
                     }
                 }
             }
         }
-    }
 };
 
 void ExecutableRun(std::string& command) {

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="ccm.h" />
     <ClInclude Include="ccm\CCM_Header.h" />
+    <ClInclude Include="ccm\cd.h" />
     <ClInclude Include="ccm\clear.h" />
     <ClInclude Include="ccm\color.h" />
     <ClInclude Include="ccm\exec1.h" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ccm.cpp" />
+    <ClCompile Include="cd.cpp" />
     <ClCompile Include="clear.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="dllmain.cpp" />
