@@ -40,3 +40,20 @@ for compile
 ```bash
 g++ -shared -Wall -fPIC file.cpp -L./folder/ccm -lccm -o nameFile
 ```
+
+- windows
+```bash
+g++ -shared -Wall -fPIC file.cpp -L.\folder\ccm -lccm -o nameFile
+```
+
+compile in g++
+
+- windows
+```bash
+g++ -shared -Wall -fPIC -DBUILD_SHARED_LIB ccm.cpp ls.cpp clear.cpp pwd.cpp exec1.cpp exec2.cpp exit.cpp color.cpp -o ccm.dll -Wl,--out-implib,libccm.a
+```
+
+- linux
+```bash
+g++ -shared -fPIC -Wall ccm.cpp ls.cpp color.cpp pwd.cpp exec1.cpp exec2.cpp clear.cpp exit.cpp -o libccm.so
+```
