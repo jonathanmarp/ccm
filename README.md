@@ -15,3 +15,21 @@ Make connection in encrypt :x:
 - Step2 (Color Output Shell) :heavy_check_mark:
 
 ## If There Are Bugs Or Use Could Put On Issue
+
+```C++
+#include <iostream>
+#include "ccm.h"
+
+int main(int argc, const char* argv[]) {
+  std::string temp;
+  while(true) {
+    input(temp, "$ "); // in parameter 2 its The emblem is usually on the shell
+    ExecutableRun(temp);
+  }
+  {
+    (void)argc;
+    (void)argv;
+  }
+  return 0;
+}
+``
