@@ -7,9 +7,6 @@ Work With Shell :heavy_check_mark:
 - Step 2
 Make Connection :x:
 
-- Step 3
-Make connection in encrypt :x:
-
 # Already done
 - Step1 (Work With Shell) :heavy_check_mark:
 - Step2 (Color Output Shell) :heavy_check_mark:
