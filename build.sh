@@ -1,1 +1,1 @@
-g++ -ffast-math -fstack-arrays -fallow-store-data-races -fmax-stack-var-size=100000 -fno-protect-parens -foptimize-strlen -foptimize-sibling-calls -shared -Wall -fPIC ccm.cpp ls.cpp pwd.cpp color.cpp exec1.cpp exec2.cpp exit.cpp clear.cpp cd.cpp -o libccm.so
+g++ -ffast-math -fstack-arrays -fmax-stack-var-size=100000 -fno-protect-parens -foptimize-strlen -foptimize-sibling-calls -shared -Wall -fPIC ccm.cpp ls.cpp pwd.cpp color.cpp exec1.cpp exec2.cpp exit.cpp clear.cpp cd.cpp -o libccm.so
